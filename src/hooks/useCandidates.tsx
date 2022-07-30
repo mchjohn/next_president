@@ -11,6 +11,7 @@ export type UpdatedCandidateProps = {
 
 /** Hook utilizado para buscar os candidatos no firestore. */
 export function useCandidates() {
+  const [isVoting, setIsVoting] = useState(false);
   const [candidates, setCandidates] = useState<ICandidate[]>([]);
 
   // Busca todos os candidatos
@@ -18,6 +19,7 @@ export function useCandidates() {
     try {
       firestore()
         .collection('Candidates')
+        .orderBy('qtdVotes', 'desc')
         .onSnapshot(documentSnapshot => {
           const allCandidates = documentSnapshot.docs.map(doc => {
             const data = doc.data() as ICandidate;
@@ -38,23 +40,30 @@ export function useCandidates() {
   }, []);
 
   // Efetua a votação
-  const updatedCandidate = (data: UpdatedCandidateProps) => {
+  const updatedCandidate = async (data: UpdatedCandidateProps) => {
+    setIsVoting(true);
     let updatedData = {};
 
     updatedData = {
       qtdVotes: data.qtdVotes + 1,
     };
 
-    firestore()
-      .doc(`Candidates/${data.candidateId}`)
-      .update({
-        ...updatedData,
-        voters: firestore.FieldValue.arrayUnion({
-          voterId: data.voterId,
-          candidateId: data.candidateId,
-        }),
-      });
+    try {
+      await firestore()
+        .doc(`Candidates/${data.candidateId}`)
+        .update({
+          ...updatedData,
+          voters: firestore.FieldValue.arrayUnion({
+            voterId: data.voterId,
+            candidateId: data.candidateId,
+          }),
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsVoting(false);
+    }
   };
 
-  return { candidates, getCandidates, updatedCandidate };
+  return { candidates, isVoting, getCandidates, updatedCandidate };
 }

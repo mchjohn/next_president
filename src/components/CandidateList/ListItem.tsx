@@ -9,10 +9,11 @@ import { ICandidate } from '@src/constants/candidates';
 type Props = {
   amountVotes: number;
   candidate: ICandidate;
+  isFirstCandidate: number;
 };
 
-export function ListItem({ amountVotes, candidate }: Props) {
-  const { updatedCandidate } = useCandidates();
+export function ListItem({ amountVotes, candidate, isFirstCandidate }: Props) {
+  const { isVoting, updatedCandidate } = useCandidates();
 
   const percentVotes = useMemo(() => {
     if (amountVotes > 0) {
@@ -26,6 +27,16 @@ export function ListItem({ amountVotes, candidate }: Props) {
     }
   }, [amountVotes, candidate.qtdVotes]);
 
+  const firstCandidate = useMemo(() => {
+    if (isFirstCandidate === 0) {
+      return <Avatar.Badge bg="green.600" />;
+    } else if (isFirstCandidate === 1) {
+      return <Avatar.Badge bg="yellow.300" />;
+    } else {
+      return null;
+    }
+  }, [isFirstCandidate]);
+
   return (
     <Box borderBottomWidth="1" borderColor="gray.300" py="4" marginX="4">
       <HStack space={4} justifyContent="space-between" alignItems="center">
@@ -35,7 +46,7 @@ export function ListItem({ amountVotes, candidate }: Props) {
             uri: candidate.avatar,
           }}
         >
-          <Avatar.Badge bg="yellow.300" />
+          {firstCandidate}
         </Avatar>
         <VStack>
           <Text color="gray.900" fontWeight="500" fontSize="md">
@@ -53,9 +64,9 @@ export function ListItem({ amountVotes, candidate }: Props) {
         </VStack>
         <Spacer />
         <Button
-          size="lg"
+          size="md"
           bg="green.600"
-          isLoading={false}
+          isLoading={isVoting}
           isLoadingText="Votando..."
           onPress={() =>
             updatedCandidate({
