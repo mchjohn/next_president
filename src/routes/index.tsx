@@ -5,7 +5,7 @@ import { PublicNavigation } from './public.routes';
 import { PrivateNavigation } from './private.routes';
 
 export function Navigation() {
-  const user = true;
+  const user = false;
 
   function getNavigation() {
     if (user) {
