@@ -9,12 +9,7 @@ const { Navigator, Screen } = createNativeStackNavigator<PropsNavigationStack>()
 
 export function PublicNavigation() {
   return (
-    <Navigator
-      initialRouteName="SignIn"
-      screenOptions={{
-        contentStyle: { backgroundColor: '#ffffff' },
-      }}
-    >
+    <Navigator initialRouteName="SignIn">
       <Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
     </Navigator>
   );

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "424131763908",
+    "project_id": "next-president",
+    "storage_bucket": "next-president.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424131763908:android:691f83ac27eb68c42b7391",
+        "android_client_info": {
+          "package_name": "com.next_president"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424131763908-jjtnqit4b8l8to2070t1gv3a35lb0iho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGJipiOftOiW66byVCLAmmNHCnCQGdSjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424131763908-jjtnqit4b8l8to2070t1gv3a35lb0iho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
