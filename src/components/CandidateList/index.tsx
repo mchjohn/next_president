@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { Box, FlatList } from 'native-base';
+import { Box } from 'native-base';
+import { FlashList } from '@shopify/flash-list';
 
 import { ICandidate } from '@src/constants/candidates';
 import { ListItem } from './ListItem';
@@ -22,12 +23,12 @@ export function CandidateList({ candidates }: Props) {
 
   return (
     <Box marginY="4" flex={1}>
-      <FlatList
+      <FlashList
         data={candidates}
+        estimatedItemSize={109}
         renderItem={({ item, index }) => (
           <ListItem candidate={item} amountVotes={amountVotes} isFirstCandidate={index} />
         )}
-        keyExtractor={item => item.name}
       />
     </Box>
   );
