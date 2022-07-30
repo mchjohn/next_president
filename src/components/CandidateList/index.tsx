@@ -24,7 +24,9 @@ export function CandidateList({ candidates }: Props) {
     <Box marginY="4" flex={1}>
       <FlatList
         data={candidates}
-        renderItem={({ item }) => <ListItem candidate={item} amountVotes={amountVotes} />}
+        renderItem={({ item, index }) => (
+          <ListItem candidate={item} amountVotes={amountVotes} isFirstCandidate={index} />
+        )}
         keyExtractor={item => item.name}
       />
     </Box>
