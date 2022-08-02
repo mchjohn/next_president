@@ -1,20 +1,21 @@
 import React, { useMemo } from 'react';
-import { getDeviceId } from 'react-native-device-info';
 import { Box, HStack, VStack, Text, Spacer, Button } from 'native-base';
 
 import { useCandidates } from '@hooks/useCandidates';
 
 import { ICandidate } from '@src/constants/candidates';
 
+import { SignIn } from '@components/SignIn';
 import { AvatarBadge } from '@components/AvatarBadge';
 
 type Props = {
   amountVotes: number;
   candidate: ICandidate;
+  voterId: string | null;
   candidatesPosition: number;
 };
 
-export function ListItem({ amountVotes, candidate, candidatesPosition }: Props) {
+export function ListItem({ voterId, amountVotes, candidate, candidatesPosition }: Props) {
   const { isVoting, updatedCandidate } = useCandidates();
 
   const percentVotes = useMemo(() => {
@@ -48,21 +49,26 @@ export function ListItem({ amountVotes, candidate, candidatesPosition }: Props) 
           </Text>
         </VStack>
         <Spacer />
-        <Button
-          size="md"
-          bg="green.600"
-          isLoading={isVoting}
-          isLoadingText="Votando..."
-          onPress={() =>
-            updatedCandidate({
-              candidateId: candidate.id,
-              voterId: getDeviceId(),
-              qtdVotes: candidate.qtdVotes,
-            })
-          }
-        >
-          VOTAR
-        </Button>
+
+        {voterId ? (
+          <Button
+            size="md"
+            bg="green.600"
+            isLoading={isVoting}
+            isLoadingText="Votando..."
+            onPress={() =>
+              updatedCandidate({
+                voterId,
+                candidateId: candidate.id,
+                qtdVotes: candidate.qtdVotes,
+              })
+            }
+          >
+            VOTAR
+          </Button>
+        ) : (
+          <SignIn />
+        )}
       </HStack>
     </Box>
   );
