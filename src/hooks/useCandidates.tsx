@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import { ICandidate } from '@constants/candidates';
 
 export type UpdatedCandidateProps = {
-  voterId: string;
+  voterId: string | null;
   qtdVotes: number;
   candidateId: string;
 };
