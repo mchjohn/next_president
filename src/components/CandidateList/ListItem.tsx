@@ -1,18 +1,20 @@
 import React, { useMemo } from 'react';
 import { getDeviceId } from 'react-native-device-info';
-import { Box, HStack, VStack, Avatar, Text, Spacer, Button } from 'native-base';
+import { Box, HStack, VStack, Text, Spacer, Button } from 'native-base';
 
 import { useCandidates } from '@hooks/useCandidates';
 
 import { ICandidate } from '@src/constants/candidates';
 
+import { AvatarBadge } from '@components/AvatarBadge';
+
 type Props = {
   amountVotes: number;
   candidate: ICandidate;
-  isFirstCandidate: number;
+  candidatesPosition: number;
 };
 
-export function ListItem({ amountVotes, candidate, isFirstCandidate }: Props) {
+export function ListItem({ amountVotes, candidate, candidatesPosition }: Props) {
   const { isVoting, updatedCandidate } = useCandidates();
 
   const percentVotes = useMemo(() => {
@@ -27,27 +29,10 @@ export function ListItem({ amountVotes, candidate, isFirstCandidate }: Props) {
     }
   }, [amountVotes, candidate.qtdVotes]);
 
-  const firstCandidate = useMemo(() => {
-    if (isFirstCandidate === 0) {
-      return <Avatar.Badge bg="green.600" />;
-    } else if (isFirstCandidate === 1) {
-      return <Avatar.Badge bg="yellow.300" />;
-    } else {
-      return null;
-    }
-  }, [isFirstCandidate]);
-
   return (
     <Box borderBottomWidth="1" borderColor="gray.300" py="4" marginX="4">
       <HStack space={4} justifyContent="space-between" alignItems="center">
-        <Avatar
-          size="lg"
-          source={{
-            uri: candidate.avatar,
-          }}
-        >
-          {firstCandidate}
-        </Avatar>
+        <AvatarBadge uri={candidate.avatar} candidatesPosition={candidatesPosition} />
         <VStack>
           <Text color="gray.900" fontWeight="500" fontSize="md">
             {candidate.numberCandidate} - {candidate.name}
