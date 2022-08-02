@@ -27,7 +27,7 @@ export function CandidateList({ candidates }: Props) {
         data={candidates}
         estimatedItemSize={109}
         renderItem={({ item, index }) => (
-          <ListItem candidate={item} amountVotes={amountVotes} isFirstCandidate={index} />
+          <ListItem candidate={item} amountVotes={amountVotes} candidatesPosition={index} />
         )}
       />
     </Box>

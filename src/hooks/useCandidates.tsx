@@ -42,17 +42,12 @@ export function useCandidates() {
   // Efetua a votação
   const updatedCandidate = async (data: UpdatedCandidateProps) => {
     setIsVoting(true);
-    let updatedData = {};
-
-    updatedData = {
-      qtdVotes: data.qtdVotes + 1,
-    };
 
     try {
       await firestore()
         .doc(`Candidates/${data.candidateId}`)
         .update({
-          ...updatedData,
+          qtdVotes: firestore.FieldValue.increment(1),
           voters: firestore.FieldValue.arrayUnion({
             voterId: data.voterId,
             candidateId: data.candidateId,
