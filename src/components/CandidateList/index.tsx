@@ -22,6 +22,26 @@ export function CandidateList({ user, candidates }: Props) {
     }, 0);
   }, [candidates]);
 
+  const alreadyVoted = useMemo(() => {
+    let voter = {
+      candidateId: '',
+      isVote: false,
+    };
+
+    candidates.map(({ voters }) => {
+      voters?.map(({ voterId, candidateId }) => {
+        if (voterId === user && candidateId) {
+          voter = {
+            candidateId,
+            isVote: true,
+          };
+        }
+      });
+    });
+
+    return voter;
+  }, [candidates, user]);
+
   return (
     <Box marginY="4" flex={1}>
       <FlashList
@@ -30,9 +50,10 @@ export function CandidateList({ user, candidates }: Props) {
         estimatedItemSize={109}
         renderItem={({ item, index }) => (
           <ListItem
-            voterId={user}
+            userId={user}
             candidate={item}
             amountVotes={amountVotes}
+            alreadyVoted={alreadyVoted}
             candidatesPosition={index}
           />
         )}

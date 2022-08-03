@@ -1,23 +1,29 @@
 import React, { useMemo } from 'react';
-import { Box, HStack, VStack, Text, Spacer, Button } from 'native-base';
-
-import { useCandidates } from '@hooks/useCandidates';
+import { Box, HStack, VStack, Text, Spacer } from 'native-base';
 
 import { ICandidate } from '@src/constants/candidates';
 
-import { SignIn } from '@components/SignIn';
 import { AvatarBadge } from '@components/AvatarBadge';
+import { CustomButton } from './CustomButton';
 
 type Props = {
   amountVotes: number;
   candidate: ICandidate;
-  voterId: string | null;
+  alreadyVoted: {
+    candidateId: string;
+    isVote: boolean;
+  };
+  userId: string | null;
   candidatesPosition: number;
 };
 
-export function ListItem({ voterId, amountVotes, candidate, candidatesPosition }: Props) {
-  const { isVoting, updatedCandidate } = useCandidates();
-
+export function ListItem({
+  userId,
+  amountVotes,
+  candidate,
+  alreadyVoted,
+  candidatesPosition,
+}: Props) {
   const percentVotes = useMemo(() => {
     if (amountVotes > 0) {
       const percentage = candidate.qtdVotes / amountVotes;
@@ -50,25 +56,12 @@ export function ListItem({ voterId, amountVotes, candidate, candidatesPosition }
         </VStack>
         <Spacer />
 
-        {voterId ? (
-          <Button
-            size="md"
-            bg="green.600"
-            isLoading={isVoting}
-            isLoadingText="Votando..."
-            onPress={() =>
-              updatedCandidate({
-                voterId,
-                candidateId: candidate.id,
-                qtdVotes: candidate.qtdVotes,
-              })
-            }
-          >
-            VOTAR
-          </Button>
-        ) : (
-          <SignIn />
-        )}
+        <CustomButton
+          userId={userId}
+          candidateId={candidate.id}
+          alreadyVoted={alreadyVoted}
+          qtdVotes={candidate.qtdVotes}
+        />
       </HStack>
     </Box>
   );
