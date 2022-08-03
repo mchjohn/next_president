@@ -52,5 +52,3 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 }
-
-buildConfigField("String", "APP_SECRET", "\"${System.env.APP_SECRET}\"")
