@@ -1,10 +1,10 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
+    ['inline-dotenv'],
+    'module:react-native-dotenv',
     [
       'module-resolver',
-      'module:react-native-dotenv',
-      'inline-dotenv',
       {
         root: ['./src'],
         extensions: ['.ts', '.tsx', '.js', '.json'],
