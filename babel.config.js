@@ -3,6 +3,8 @@ module.exports = {
   plugins: [
     [
       'module-resolver',
+      'module:react-native-dotenv',
+      'inline-dotenv',
       {
         root: ['./src'],
         extensions: ['.ts', '.tsx', '.js', '.json'],
