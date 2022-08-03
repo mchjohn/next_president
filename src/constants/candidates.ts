@@ -6,4 +6,10 @@ export interface ICandidate {
   fullName: string;
   qtdVotes: number;
   numberCandidate: string;
+  voters?: [
+    {
+      voterId: string;
+      candidateId: string;
+    },
+  ];
 }
