@@ -4,7 +4,7 @@ import { Button, Popover } from 'native-base';
 import { useAnonymousLogin } from '@hooks/useAnonymousLogin';
 
 export function SignIn() {
-  const { signInAnonymous } = useAnonymousLogin();
+  const { isSignIn, signInAnonymous } = useAnonymousLogin();
 
   return (
     <Popover
@@ -21,7 +21,13 @@ export function SignIn() {
         <Popover.CloseButton />
         <Popover.Header _text={{ color: 'gray.700' }}>Para votar, faça login</Popover.Header>
         <Popover.Footer justifyContent="flex-end">
-          <Button colorScheme="green" onPress={signInAnonymous}>
+          <Button
+            colorScheme="green"
+            isLoading={isSignIn}
+            isDisabled={isSignIn}
+            onPress={signInAnonymous}
+            isLoadingText="Entrando..."
+          >
             Entrar
           </Button>
         </Popover.Footer>
