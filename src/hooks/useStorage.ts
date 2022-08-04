@@ -1,13 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { VOTE } from '@constants/store-key';
+import { __getError } from '../services/app_center/analytics';
 
 export function useStorage() {
   const setStoreData = async (value: string) => {
     try {
       await AsyncStorage.setItem(VOTE, value);
-    } catch (err) {
-      console.log('setStorageData', err);
+    } catch (error) {
+      __getError(error, 'useStorage - setStoreData');
+      console.log('setStorageData', error);
     }
   };
 
@@ -16,16 +18,18 @@ export function useStorage() {
       const data = await AsyncStorage.getItem(VOTE);
 
       return data;
-    } catch (err) {
-      console.log('getStoreData', err);
+    } catch (error) {
+      __getError(error, 'useStorage - getStoreData');
+      console.log('getStoreData', error);
     }
   };
 
   const deleteStoreData = async () => {
     try {
       await AsyncStorage.removeItem(VOTE);
-    } catch (err) {
-      console.log('deleteStoreData', err);
+    } catch (error) {
+      __getError(error, 'useStorage - deleteStoreData');
+      console.log('deleteStoreData', error);
     }
   };
 

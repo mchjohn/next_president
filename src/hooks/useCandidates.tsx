@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 import { ICandidate } from '@constants/candidates';
+import { __getError } from '../services/app_center/analytics';
 
 export type UpdatedCandidateProps = {
   qtdVotes: number;
@@ -34,6 +35,7 @@ export function useCandidates() {
           setCandidates(allCandidates);
         });
     } catch (error) {
+      __getError(error, 'useCandidates - getCandidates');
       console.log(error);
     }
   }, []);
@@ -48,8 +50,9 @@ export function useCandidates() {
         .update({
           qtdVotes: firestore.FieldValue.increment(1),
         });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      __getError(error, 'useCandidates - updatedCandidate');
+      console.log(error);
     } finally {
       setIsVoting(false);
     }
