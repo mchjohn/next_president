@@ -3,6 +3,7 @@ import auth from '@react-native-firebase/auth';
 import { Box, Container, Text, Button } from 'native-base';
 
 import { useUserAuth } from '@hooks/useUserAuth';
+import { __newUserIsLogged } from '../../services/app_center/analytics';
 
 export function Header() {
   const [isLogout, setIsLogout] = useState(false);
@@ -14,6 +15,8 @@ export function Header() {
 
     try {
       await auth().signOut();
+
+      __newUserIsLogged(user!, 'Header');
     } catch (err) {
       console.log(err);
     } finally {

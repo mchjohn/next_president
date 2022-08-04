@@ -61,6 +61,7 @@ export function ListItem({
           candidateId={candidate.id}
           alreadyVoted={alreadyVoted}
           qtdVotes={candidate.qtdVotes}
+          candidateName={candidate.name}
         />
       </HStack>
     </Box>
