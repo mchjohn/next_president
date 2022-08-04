@@ -4,7 +4,6 @@ import firestore from '@react-native-firebase/firestore';
 import { ICandidate } from '@constants/candidates';
 
 export type UpdatedCandidateProps = {
-  voterId: string | null;
   qtdVotes: number;
   candidateId: string;
 };
@@ -48,10 +47,6 @@ export function useCandidates() {
         .doc(`Candidates/${data.candidateId}`)
         .update({
           qtdVotes: firestore.FieldValue.increment(1),
-          voters: firestore.FieldValue.arrayUnion({
-            voterId: data.voterId,
-            candidateId: data.candidateId,
-          }),
         });
     } catch (err) {
       console.log(err);

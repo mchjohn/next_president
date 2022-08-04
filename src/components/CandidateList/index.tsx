@@ -6,11 +6,11 @@ import { ICandidate } from '@src/constants/candidates';
 import { ListItem } from './ListItem';
 
 type Props = {
-  user: string | null;
+  candidateVoted: string;
   candidates: ICandidate[];
 };
 
-export function CandidateList({ user, candidates }: Props) {
+export function CandidateList({ candidateVoted, candidates }: Props) {
   const amountVotes = useMemo(() => {
     let amount = 0;
     return candidates.reduce((total, { qtdVotes }) => {
@@ -22,39 +22,18 @@ export function CandidateList({ user, candidates }: Props) {
     }, 0);
   }, [candidates]);
 
-  const alreadyVoted = useMemo(() => {
-    let voter = {
-      candidateId: '',
-      isVote: false,
-    };
-
-    candidates.map(({ voters }) => {
-      voters?.map(({ voterId, candidateId }) => {
-        if (voterId === user && candidateId) {
-          voter = {
-            candidateId,
-            isVote: true,
-          };
-        }
-      });
-    });
-
-    return voter;
-  }, [candidates, user]);
-
   return (
     <Box marginY="4" flex={1}>
       <FlashList
         data={candidates}
-        extraData={user}
         estimatedItemSize={109}
+        extraData={candidateVoted}
         renderItem={({ item, index }) => (
           <ListItem
-            userId={user}
             candidate={item}
             amountVotes={amountVotes}
-            alreadyVoted={alreadyVoted}
             candidatesPosition={index}
+            candidateVoted={candidateVoted}
           />
         )}
       />

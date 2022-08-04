@@ -1,14 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useUserAuth } from '@hooks/useUserAuth';
+import { useStorage } from '@hooks/useStorage';
 import { useCandidates } from '@hooks/useCandidates';
 
 import { Header } from '@components/Header';
 import { CandidateList } from '@components/CandidateList';
 
 export function Home() {
-  const { user } = useUserAuth();
+  const [candidateVoted, setCandidateVoted] = useState('');
+
+  const { getStoreData } = useStorage();
   const { candidates, getCandidates } = useCandidates();
+
+  useEffect(() => {
+    (async () => {
+      const data = await getStoreData();
+
+      setCandidateVoted(data ? data : '');
+    })();
+  }, [getStoreData]);
 
   useEffect(() => {
     getCandidates();
@@ -18,7 +28,7 @@ export function Home() {
     <>
       <Header />
 
-      <CandidateList candidates={candidates} user={user} />
+      <CandidateList candidates={candidates} candidateVoted={candidateVoted} />
     </>
   );
 }
