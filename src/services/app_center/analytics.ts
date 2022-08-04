@@ -15,11 +15,12 @@ const __voteCandidatePressed = (candidate: candidate, whereWasCalled: string) =>
   });
 };
 
-const __newUserIsLogged = (whereWasCalled: string) => {
-  Analytics.trackEvent('User has logged out', {
+const __getError = (error: any, whereWasCalled: string) => {
+  Analytics.trackEvent('An error has occurred', {
     os: Platform.OS,
+    error: error,
     component: whereWasCalled,
   });
 };
 
-export { __newUserIsLogged, __voteCandidatePressed };
+export { __getError, __voteCandidatePressed };
