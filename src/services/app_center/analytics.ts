@@ -6,20 +6,18 @@ type candidate = {
   name: string;
 };
 
-const __voteCandidatePressed = (userId: string, candidate: candidate, whereWasCalled: string) => {
+const __voteCandidatePressed = (candidate: candidate, whereWasCalled: string) => {
   Analytics.trackEvent('Vote button pressed', {
     os: Platform.OS,
-    userId: userId!,
     component: whereWasCalled,
     candidateId: candidate.id,
     candidateName: candidate.name,
   });
 };
 
-const __newUserIsLogged = (userId: string, whereWasCalled: string) => {
+const __newUserIsLogged = (whereWasCalled: string) => {
   Analytics.trackEvent('User has logged out', {
     os: Platform.OS,
-    userId: userId!,
     component: whereWasCalled,
   });
 };

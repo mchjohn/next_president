@@ -1,41 +1,32 @@
 import React from 'react';
 import { Button } from 'native-base';
 
+import { useStorage } from '@hooks/useStorage';
 import { useCandidates } from '@hooks/useCandidates';
 import { __voteCandidatePressed } from '../../services/app_center/analytics';
 
-import { SignIn } from '@components/SignIn';
-
 type Props = {
-  userId: string | null;
   qtdVotes: number;
   candidateId: string;
   candidateName: string;
-  alreadyVoted: {
-    candidateId: string;
-    isVote: boolean;
-  };
+  candidateVoted: string;
 };
 
-export function CustomButton({
-  userId,
-  qtdVotes,
-  candidateId,
-  candidateName,
-  alreadyVoted,
-}: Props) {
+export function CustomButton({ qtdVotes, candidateId, candidateName, candidateVoted }: Props) {
+  const { setStoreData } = useStorage();
   const { isVoting, updatedCandidate } = useCandidates();
 
   const onVote = () => {
     updatedCandidate({
-      voterId: userId,
       candidateId,
       qtdVotes,
     });
 
+    setStoreData(candidateId);
+
     const candidate = { id: candidateId, name: candidateName };
 
-    __voteCandidatePressed(userId!, candidate, 'CustomButton');
+    __voteCandidatePressed(candidate, 'CustomButton');
   };
 
   const ButtonComponent = () => {
@@ -46,24 +37,20 @@ export function CustomButton({
         onPress={onVote}
         isLoading={isVoting}
         isLoadingText="Votando..."
-        isDisabled={alreadyVoted.isVote}
+        isDisabled={!!candidateVoted}
       >
-        {alreadyVoted.isVote ? 'VOTADO' : 'VOTAR'}
+        {candidateVoted ? 'VOTADO' : 'VOTAR'}
       </Button>
     );
   };
 
   const ButtonToRender = () => {
-    if (userId && alreadyVoted.isVote === false) {
+    if (!!candidateVoted && candidateVoted === candidateId) {
       return ButtonComponent();
-    } else if (userId && alreadyVoted.isVote === true) {
-      if (alreadyVoted.candidateId === candidateId) {
-        return ButtonComponent();
-      } else {
-        return null;
-      }
+    } else if (!!candidateVoted && candidateVoted !== candidateId) {
+      return null;
     } else {
-      return <SignIn />;
+      return ButtonComponent();
     }
   };
 
