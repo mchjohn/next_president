@@ -228,8 +228,8 @@ android {
             keyPassword 'android'
         }
         release {
-            if (project.hasProperty('app/my-upload-key.keystore')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            if (project.hasProperty('my-upload-key.keystore')) {
+                storeFile file(my-upload-key.keystore)
                 storePassword APPCENTER_KEYSTORE_PASSWORD
                 keyAlias APPCENTER_KEY_ALIAS
                 keyPassword APPCENTER_KEY_PASSWORD
