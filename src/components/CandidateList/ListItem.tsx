@@ -9,21 +9,12 @@ import { CustomButton } from './CustomButton';
 type Props = {
   amountVotes: number;
   candidate: ICandidate;
-  alreadyVoted: {
-    candidateId: string;
-    isVote: boolean;
-  };
-  userId: string | null;
+
+  candidateVoted: string;
   candidatesPosition: number;
 };
 
-export function ListItem({
-  userId,
-  amountVotes,
-  candidate,
-  alreadyVoted,
-  candidatesPosition,
-}: Props) {
+export function ListItem({ amountVotes, candidate, candidateVoted, candidatesPosition }: Props) {
   const percentVotes = useMemo(() => {
     if (amountVotes > 0) {
       const percentage = candidate.qtdVotes / amountVotes;
@@ -57,10 +48,10 @@ export function ListItem({
         <Spacer />
 
         <CustomButton
-          userId={userId}
           candidateId={candidate.id}
-          alreadyVoted={alreadyVoted}
           qtdVotes={candidate.qtdVotes}
+          candidateName={candidate.name}
+          candidateVoted={candidateVoted}
         />
       </HStack>
     </Box>

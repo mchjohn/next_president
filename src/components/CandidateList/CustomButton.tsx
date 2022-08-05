@@ -1,55 +1,56 @@
 import React from 'react';
 import { Button } from 'native-base';
 
+import { useStorage } from '@hooks/useStorage';
 import { useCandidates } from '@hooks/useCandidates';
-
-import { SignIn } from '@components/SignIn';
+import { __voteCandidatePressed } from '../../services/app_center/analytics';
 
 type Props = {
-  userId: string | null;
   qtdVotes: number;
   candidateId: string;
-  alreadyVoted: {
-    candidateId: string;
-    isVote: boolean;
-  };
+  candidateName: string;
+  candidateVoted: string;
 };
 
-export function CustomButton({ userId, qtdVotes, candidateId, alreadyVoted }: Props) {
+export function CustomButton({ qtdVotes, candidateId, candidateName, candidateVoted }: Props) {
+  const { setStoreData } = useStorage();
   const { isVoting, updatedCandidate } = useCandidates();
+
+  const onVote = () => {
+    updatedCandidate({
+      candidateId,
+      qtdVotes,
+    });
+
+    setStoreData(candidateId);
+
+    const candidate = { id: candidateId, name: candidateName };
+
+    __voteCandidatePressed(candidate, 'CustomButton');
+  };
 
   const ButtonComponent = () => {
     return (
       <Button
         size="md"
         bg="green.600"
+        onPress={onVote}
         isLoading={isVoting}
         isLoadingText="Votando..."
-        onPress={() =>
-          updatedCandidate({
-            voterId: userId,
-            candidateId,
-            qtdVotes,
-          })
-        }
-        isDisabled={alreadyVoted.isVote}
+        isDisabled={!!candidateVoted}
       >
-        {alreadyVoted.isVote ? 'VOTADO' : 'VOTAR'}
+        {candidateVoted ? 'VOTADO' : 'VOTAR'}
       </Button>
     );
   };
 
   const ButtonToRender = () => {
-    if (userId && alreadyVoted.isVote === false) {
+    if (!!candidateVoted && candidateVoted === candidateId) {
       return ButtonComponent();
-    } else if (userId && alreadyVoted.isVote === true) {
-      if (alreadyVoted.candidateId === candidateId) {
-        return ButtonComponent();
-      } else {
-        return null;
-      }
+    } else if (!!candidateVoted && candidateVoted !== candidateId) {
+      return null;
     } else {
-      return <SignIn />;
+      return ButtonComponent();
     }
   };
 
