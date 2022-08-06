@@ -14,6 +14,9 @@ const newColorTheme = {
   yellow: {
     300: '#FFB837',
   },
+  blue: {
+    500: '#4267B2',
+  },
 };
 
 const theme = extendTheme({ colors: newColorTheme });

@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import { ICandidate } from '@constants/candidates';
 import { __getError } from '../services/app_center/analytics';
 
-export type UpdatedCandidateProps = {
+type UpdatedCandidateProps = {
   qtdVotes: number;
   candidateId: string;
 };

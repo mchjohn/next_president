@@ -10,11 +10,10 @@ type Props = {
   amountVotes: number;
   candidate: ICandidate;
 
-  candidateVoted: string;
   candidatesPosition: number;
 };
 
-export function ListItem({ amountVotes, candidate, candidateVoted, candidatesPosition }: Props) {
+export function ListItem({ amountVotes, candidate, candidatesPosition }: Props) {
   const percentVotes = useMemo(() => {
     if (amountVotes > 0) {
       const percentage = candidate.qtdVotes / amountVotes;
@@ -51,7 +50,6 @@ export function ListItem({ amountVotes, candidate, candidateVoted, candidatesPos
           candidateId={candidate.id}
           qtdVotes={candidate.qtdVotes}
           candidateName={candidate.name}
-          candidateVoted={candidateVoted}
         />
       </HStack>
     </Box>

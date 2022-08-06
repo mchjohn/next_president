@@ -1,19 +1,24 @@
 import React from 'react';
 import { Button } from 'native-base';
 
-import { useStorage } from '@hooks/useStorage';
+import { useUser } from '@contexts/UserContext';
+import { useAuth } from '@contexts/AuthContext';
+
 import { useCandidates } from '@hooks/useCandidates';
+
+import { useFirebaseService } from '../../services/firebase/saveUserInFirestore';
 import { __voteCandidatePressed } from '../../services/app_center/analytics';
 
 type Props = {
   qtdVotes: number;
   candidateId: string;
   candidateName: string;
-  candidateVoted: string;
 };
 
-export function CustomButton({ qtdVotes, candidateId, candidateName, candidateVoted }: Props) {
-  const { setStoreData } = useStorage();
+export function CustomButton({ qtdVotes, candidateId, candidateName }: Props) {
+  const { userData } = useUser();
+  const { authData } = useAuth();
+  const { updatedUser } = useFirebaseService();
   const { isVoting, updatedCandidate } = useCandidates();
 
   const onVote = () => {
@@ -22,7 +27,7 @@ export function CustomButton({ qtdVotes, candidateId, candidateName, candidateVo
       qtdVotes,
     });
 
-    setStoreData(candidateId);
+    updatedUser(candidateId);
 
     const candidate = { id: candidateId, name: candidateName };
 
@@ -37,17 +42,17 @@ export function CustomButton({ qtdVotes, candidateId, candidateName, candidateVo
         onPress={onVote}
         isLoading={isVoting}
         isLoadingText="Votando..."
-        isDisabled={!!candidateVoted}
+        isDisabled={!!userData?.vote || !authData?.uid}
       >
-        {candidateVoted ? 'VOTADO' : 'VOTAR'}
+        {userData?.vote ? 'VOTADO' : 'VOTAR'}
       </Button>
     );
   };
 
   const ButtonToRender = () => {
-    if (!!candidateVoted && candidateVoted === candidateId) {
+    if (!!userData?.vote && userData?.vote === candidateId) {
       return ButtonComponent();
-    } else if (!!candidateVoted && candidateVoted !== candidateId) {
+    } else if (!!userData?.vote && userData?.vote !== candidateId) {
       return null;
     } else {
       return ButtonComponent();

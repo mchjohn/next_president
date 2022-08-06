@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useMemo } from 'react';
 import { Box } from 'native-base';
 import { FlashList } from '@shopify/flash-list';
@@ -6,11 +7,10 @@ import { ICandidate } from '@src/constants/candidates';
 import { ListItem } from './ListItem';
 
 type Props = {
-  candidateVoted: string;
   candidates: ICandidate[];
 };
 
-export function CandidateList({ candidateVoted, candidates }: Props) {
+export function CandidateList({ candidates }: Props) {
   const amountVotes = useMemo(() => {
     let amount = 0;
     return candidates.reduce((total, { qtdVotes }) => {
@@ -26,15 +26,10 @@ export function CandidateList({ candidateVoted, candidates }: Props) {
     <Box marginY="4" flex={1}>
       <FlashList
         data={candidates}
+        contentContainerStyle={{ paddingBottom: 40 }}
         estimatedItemSize={109}
-        extraData={candidateVoted}
         renderItem={({ item, index }) => (
-          <ListItem
-            candidate={item}
-            amountVotes={amountVotes}
-            candidatesPosition={index}
-            candidateVoted={candidateVoted}
-          />
+          <ListItem candidate={item} amountVotes={amountVotes} candidatesPosition={index} />
         )}
       />
     </Box>
