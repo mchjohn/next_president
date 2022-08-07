@@ -11,6 +11,8 @@
     "find-deadcode": "ts-prune"
   },
   "dependencies": {
+    "@dicebear/adventurer-neutral": "^4.10.3",
+    "@dicebear/avatars": "^4.10.3",
     "@react-native-async-storage/async-storage": "^1.17.7",
     "@react-native-firebase/app": "^15.2.0",
     "@react-native-firebase/auth": "^15.2.0",

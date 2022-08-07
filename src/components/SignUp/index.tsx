@@ -69,7 +69,7 @@ export function SignUp() {
               isLoadingText="Entrando..."
               isDisabled={isLoading || !email || password.length < 6}
             >
-              Entrar
+              Cadastrar
             </Button>
           </Modal.Body>
 

@@ -2,8 +2,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type PropsNavigationStack = {
   Home: undefined;
-  SignIn: undefined;
-  SignUp: undefined;
+  Comments: undefined;
 };
 
 export type PropsStack = NativeStackNavigationProp<PropsNavigationStack>;
