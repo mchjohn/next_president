@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "424131763908-u2jvo6thbs7mkk3b4th809o2mfhfdf3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.next_president",
+            "certificate_hash": "58fb9f88ee905fa53dc91d10ce8f8a2fade0be2a"
+          }
+        },
+        {
           "client_id": "424131763908-jjtnqit4b8l8to2070t1gv3a35lb0iho.apps.googleusercontent.com",
           "client_type": 3
         }
