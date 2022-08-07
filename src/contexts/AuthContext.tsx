@@ -6,6 +6,7 @@ import { IUser } from '@constants/user';
 
 import { useModal } from '@contexts/ModalContext';
 
+import { __getError } from '../services/app_center/analytics';
 import { useFirebaseService } from '../services/firebase/saveUserInFirestore';
 
 type AuthProviderProps = {
@@ -76,6 +77,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
       closeModal();
       setErrorMessage('');
+      __getError(email, 'AuthProvider - signInWithEmail');
     } catch (err: any) {
       console.log('Err signInWithEmail', err);
 
@@ -112,8 +114,10 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
 
       closeModal();
+      __getError(user.uid, 'AuthProvider - signInWithGoogle');
     } catch (error) {
       console.log('Error', error);
+      __getError(error, 'AuthProvider - signInWithGoogle - Error');
     } finally {
       setIsLoading(false);
     }
