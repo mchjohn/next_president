@@ -60,6 +60,10 @@ function AuthProvider({ children }: AuthProviderProps) {
         setErrorMessage('A senha deve ter no mínimo 6 caracteres');
       } else if (err.code === 'auth/invalid-email') {
         setErrorMessage('Digite um e-mail válido');
+      } else if (err.code === 'auth/too-many-requests') {
+        setErrorMessage(
+          'Muitas tentativas com erro, recupere sua senha ou tente novamente em instantes',
+        );
       }
     }
   };

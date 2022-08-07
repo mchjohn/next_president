@@ -26,8 +26,8 @@ export function CandidateList({ candidates }: Props) {
     <Box marginY="4" flex={1}>
       <FlashList
         data={candidates}
-        contentContainerStyle={{ paddingBottom: 40 }}
         estimatedItemSize={109}
+        contentContainerStyle={{ paddingBottom: 40 }}
         renderItem={({ item, index }) => (
           <ListItem candidate={item} amountVotes={amountVotes} candidatesPosition={index} />
         )}

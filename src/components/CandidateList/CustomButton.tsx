@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from 'native-base';
 
 import { useUser } from '@contexts/UserContext';
@@ -21,6 +21,14 @@ export function CustomButton({ qtdVotes, candidateId, candidateName }: Props) {
   const { updatedUser } = useFirebaseService();
   const { isVoting, updatedCandidate } = useCandidates();
 
+  const vote = useMemo(() => {
+    if (authData?.uid) {
+      return userData?.vote;
+    } else {
+      return '';
+    }
+  }, [authData?.uid, userData?.vote]);
+
   const onVote = () => {
     updatedCandidate({
       candidateId,
@@ -42,17 +50,17 @@ export function CustomButton({ qtdVotes, candidateId, candidateName }: Props) {
         onPress={onVote}
         isLoading={isVoting}
         isLoadingText="Votando..."
-        isDisabled={!!userData?.vote || !authData?.uid}
+        isDisabled={!!vote || !authData?.uid}
       >
-        {userData?.vote ? 'VOTADO' : 'VOTAR'}
+        {vote ? 'VOTADO' : 'VOTAR'}
       </Button>
     );
   };
 
   const ButtonToRender = () => {
-    if (!!userData?.vote && userData?.vote === candidateId) {
+    if (!!vote && vote === candidateId) {
       return ButtonComponent();
-    } else if (!!userData?.vote && userData?.vote !== candidateId) {
+    } else if (!!vote && vote !== candidateId) {
       return null;
     } else {
       return ButtonComponent();
