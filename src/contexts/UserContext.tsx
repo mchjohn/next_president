@@ -34,13 +34,13 @@ function UserProvider({ children }: UserProviderProps) {
   const { authData } = useAuth();
 
   // Busca o usuário no firestore
-  const getUser = useCallback(async (id: string) => {
+  const getUser = useCallback(async () => {
     setIsLoading(true);
 
     try {
       firestore()
         .collection('Users')
-        .doc(id)
+        .doc(authData?.uid)
         .onSnapshot(docSnapshot => {
           const docUser = docSnapshot.data() as IUser;
 
@@ -52,11 +52,11 @@ function UserProvider({ children }: UserProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [authData?.uid]);
 
   useEffect(() => {
-    if (authData) {
-      getUser(authData.uid);
+    if (authData.uid) {
+      getUser();
     }
   }, [authData, getUser]);
 

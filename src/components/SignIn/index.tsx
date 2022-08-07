@@ -26,11 +26,6 @@ export function SignIn() {
 
   const login = async (provider: 'google' | 'email') => {
     provider === 'google' ? await signInWithGoogle() : await signInWithEmail(email, password);
-
-    if (errorMessage) {
-      setEmail('');
-      setPassword('');
-    }
   };
 
   const resetModal = () => {

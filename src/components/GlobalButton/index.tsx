@@ -1,35 +1,72 @@
-import React, { useState } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-native/no-color-literals */
+import React from 'react';
 import { SpeedDial } from '@rneui/themed';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { useAuth } from '@contexts/AuthContext';
 import { useModal } from '@contexts/ModalContext';
 
+import { PropsStack } from '@src/routes/Models';
+
 export function GlobalButton() {
-  const [open, setOpen] = useState(false);
+  const { name } = useRoute();
+  const { navigate } = useNavigation<PropsStack>();
 
   const { authData, signOut } = useAuth();
-  const { openModal, openModalSignUp } = useModal();
+  const {
+    showGlobalButton,
+    openModal,
+    openModalSignUp,
+    openModalComment,
+    openGlobalButton,
+    closeGlobalButton,
+  } = useModal();
+
+  const goToComments = () => {
+    closeGlobalButton();
+    navigate('Comments');
+  };
+
+  const goToHome = () => {
+    closeGlobalButton();
+    navigate('Home');
+  };
+
+  const logOut = () => {
+    signOut();
+    closeGlobalButton();
+  };
 
   const Dial = (iconName: string, title: string, fn: () => void) => {
     return (
-      <SpeedDial.Action icon={{ name: iconName, color: '#FCFCFC' }} title={title} onPress={fn} />
+      <SpeedDial.Action
+        onPress={fn}
+        title={title}
+        color="#1647E0"
+        titleStyle={{ color: '#041B10' }}
+        icon={{ name: iconName, color: '#FCFCFC' }}
+      />
     );
   };
 
   return (
     <SpeedDial
-      isOpen={open}
-      color="#4267B2"
-      onOpen={() => setOpen(!open)}
-      onClose={() => setOpen(!open)}
+      color="#1647E0"
+      isOpen={showGlobalButton}
+      onOpen={openGlobalButton}
+      onClose={closeGlobalButton}
       icon={{ name: 'settings', color: '#FCFCFC' }}
       openIcon={{ name: 'close', color: '#FCFCFC' }}
     >
-      {Dial('add-comment', 'Postar comentário', () => console.log('Add new comment'))}
-      {Dial('comment', 'Ver comentários', () => console.log('Navigate to comments view'))}
-      {authData?.uid
-        ? Dial('logout', 'Fazer logout', signOut)
-        : Dial('login', 'Fazer login', openModal)}
+      {!authData?.uid ? <></> : Dial('add-comment', 'Postar comentário', openModalComment)}
+
+      {name === 'Home'
+        ? Dial('comment', 'Ver comentários', goToComments)
+        : Dial('people', 'Acompanhar votos', goToHome)}
+
+      {authData?.uid ? Dial('logout', 'Sair', logOut) : Dial('login', 'Entrar', openModal)}
+
       {authData?.uid ? <></> : Dial('person-add', 'Criar conta', openModalSignUp)}
     </SpeedDial>
   );
