@@ -43,7 +43,7 @@ export function GlobalButton() {
       <SpeedDial.Action
         onPress={fn}
         title={title}
-        color="#1647E0"
+        color="#224dcf"
         titleStyle={{ color: '#041B10' }}
         icon={{ name: iconName, color: '#FCFCFC' }}
       />
@@ -52,14 +52,14 @@ export function GlobalButton() {
 
   return (
     <SpeedDial
-      color="#1647E0"
+      color="#224dcf"
       isOpen={showGlobalButton}
       onOpen={openGlobalButton}
       onClose={closeGlobalButton}
       icon={{ name: 'settings', color: '#FCFCFC' }}
       openIcon={{ name: 'close', color: '#FCFCFC' }}
     >
-      {!authData?.uid ? <></> : Dial('add-comment', 'Postar comentário', openModalComment)}
+      {Dial('add-comment', 'Postar comentário', !authData?.uid ? openModal : openModalComment)}
 
       {name === 'Home'
         ? Dial('comment', 'Ver comentários', goToComments)

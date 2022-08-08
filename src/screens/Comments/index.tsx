@@ -6,6 +6,7 @@ import { Box, Container, Text } from 'native-base';
 import { useComments } from '@hooks/useComments';
 
 import { GlobalButton } from '@components/GlobalButton';
+import { SkeletonList } from '@components/SkeletonList';
 
 import { ListItem } from './ListItem';
 
@@ -41,12 +42,16 @@ export function Comments() {
         </Text>
       </Box>
 
-      <FlashList
-        data={comments}
-        estimatedItemSize={326}
-        contentContainerStyle={{ paddingBottom: 38 }}
-        renderItem={({ item }) => <ListItem comment={item} />}
-      />
+      {!comments.length ? (
+        <SkeletonList />
+      ) : (
+        <FlashList
+          data={comments}
+          estimatedItemSize={326}
+          contentContainerStyle={{ paddingBottom: 38 }}
+          renderItem={({ item }) => <ListItem comment={item} />}
+        />
+      )}
 
       <GlobalButton />
     </Box>
