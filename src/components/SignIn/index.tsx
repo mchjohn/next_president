@@ -40,7 +40,7 @@ export function SignIn() {
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton onPress={resetModal} />
 
-          <Modal.Header>Para votar faça login</Modal.Header>
+          <Modal.Header>Entre para votar e comentar</Modal.Header>
           <Modal.Body>
             <FormControl isInvalid={!!errorMessage}>
               <FormControl.Label>Email *</FormControl.Label>

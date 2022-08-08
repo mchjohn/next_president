@@ -3,6 +3,7 @@ import { Button } from 'native-base';
 
 import { useUser } from '@contexts/UserContext';
 import { useAuth } from '@contexts/AuthContext';
+import { useModal } from '@contexts/ModalContext';
 
 import { useCandidates } from '@hooks/useCandidates';
 
@@ -18,6 +19,7 @@ type Props = {
 export function CustomButton({ qtdVotes, candidateId, candidateName }: Props) {
   const { userData } = useUser();
   const { authData } = useAuth();
+  const { openModal } = useModal();
   const { updatedUser } = useFirebaseService();
   const { isVoting, updatedCandidate } = useCandidates();
 
@@ -47,10 +49,10 @@ export function CustomButton({ qtdVotes, candidateId, candidateName }: Props) {
       <Button
         size="md"
         bg="green.600"
-        onPress={onVote}
         isLoading={isVoting}
         isLoadingText="Votando..."
-        isDisabled={!!vote || !authData?.uid}
+        isDisabled={!!vote}
+        onPress={authData?.uid ? onVote : openModal}
       >
         {vote ? 'VOTADO' : 'VOTAR'}
       </Button>
