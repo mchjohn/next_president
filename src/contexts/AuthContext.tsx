@@ -25,10 +25,10 @@ type IAuthContextData = {
   signInWithEmail(email: string, password: string): Promise<void>;
 };
 
-const { CLIENT_ID } = process.env;
+const { CLIENT_ID_PROD } = process.env;
 
 GoogleSignin.configure({
-  webClientId: CLIENT_ID,
+  webClientId: CLIENT_ID_PROD,
 });
 
 const AuthContext = createContext({} as IAuthContextData);

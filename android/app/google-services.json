@@ -1,36 +1,28 @@
 {
   "project_info": {
-    "project_number": "424131763908",
-    "project_id": "next-president",
-    "storage_bucket": "next-president.appspot.com"
+    "project_number": "774933376647",
+    "project_id": "next-president-bfee7",
+    "storage_bucket": "next-president-bfee7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:424131763908:android:691f83ac27eb68c42b7391",
+        "mobilesdk_app_id": "1:774933376647:android:874509d666eddaf53a9222",
         "android_client_info": {
           "package_name": "com.next_president"
         }
       },
       "oauth_client": [
         {
-          "client_id": "424131763908-4l1atdp2ap9jfv4j0g2on6voq53sqhnd.apps.googleusercontent.com",
+          "client_id": "774933376647-a31rf6hcggnbml6jgm84u86r0tkeq9n9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.next_president",
-            "certificate_hash": "422cd6b609fe73403f1bbb70d40e3ef8f6aea019"
+            "certificate_hash": "d18ef1a1cab94fe0b6897f4125478ecae09a6b38"
           }
         },
         {
-          "client_id": "424131763908-d2s3qrhe994141ag6o6irglurk4al658.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.next_president",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "424131763908-u2jvo6thbs7mkk3b4th809o2mfhfdf3l.apps.googleusercontent.com",
+          "client_id": "774933376647-f1sm1ba35md4egph9jqpqm5e7fh190vr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.next_president",
@@ -38,20 +30,20 @@
           }
         },
         {
-          "client_id": "424131763908-jjtnqit4b8l8to2070t1gv3a35lb0iho.apps.googleusercontent.com",
+          "client_id": "774933376647-3tpgmvdtth1ovo6jjvd8pb3rimheef01.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGJipiOftOiW66byVCLAmmNHCnCQGdSjo"
+          "current_key": "AIzaSyAbdLLKd44GWERmn4j3UnycDKd_lvs82uM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "424131763908-jjtnqit4b8l8to2070t1gv3a35lb0iho.apps.googleusercontent.com",
+              "client_id": "774933376647-3tpgmvdtth1ovo6jjvd8pb3rimheef01.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
