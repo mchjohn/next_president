@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-native/no-color-literals */
 import React from 'react';
+import { Share } from 'react-native';
 import { SpeedDial } from '@rneui/themed';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -50,6 +51,17 @@ export function GlobalButton() {
     );
   };
 
+  const onShare = async () => {
+    try {
+      await Share.share({
+        message:
+          'Baixe o app *Próximo Presidente* e me ajude a escolher o próximo presidente do Brasil. Baixe na *PlayStore* 👉 https://play.google.com/store/apps/details?id=com.next_president',
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <SpeedDial
       color="#224dcf"
@@ -59,6 +71,8 @@ export function GlobalButton() {
       icon={{ name: 'settings', color: '#FCFCFC' }}
       openIcon={{ name: 'close', color: '#FCFCFC' }}
     >
+      {Dial('share', 'Compartilhar', onShare)}
+
       {Dial('add-comment', 'Postar comentário', !authData?.uid ? openModal : openModalComment)}
 
       {name === 'Home'

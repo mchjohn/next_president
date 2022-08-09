@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Box, Button, Center, FormControl, Modal, TextArea, useToast } from 'native-base';
+import { Box, Button, Center, FormControl, Modal, TextArea, useToast, Text } from 'native-base';
 
 import { useAuth } from '@contexts/AuthContext';
 import { useModal } from '@contexts/ModalContext';
@@ -77,6 +77,11 @@ export function AddComment() {
             >
               Comentar
             </Button>
+
+            <Text w="100%" fontSize="2xs" textAlign="center" mt="4" color="gray.500">
+              Não serão tolerados qualquer tipo de comentário homofóbico, racistas e
+              preconceituosos, podendo ser deletado sem aviso prévio.
+            </Text>
           </Modal.Body>
         </Modal.Content>
       </Modal>
