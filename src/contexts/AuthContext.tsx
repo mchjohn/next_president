@@ -1,6 +1,8 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import { CLIENT_ID_PROD, FACEBOOK_APP_ID } from '@env';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Settings, LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 import { IUser } from '@constants/user';
 
@@ -16,78 +18,63 @@ type AuthProviderProps = {
 type IAuthContextData = {
   authData: IUser;
   isLoading: boolean;
-  errorMessage: string;
 
   signOut(): void;
-  resetErrorMessage(): void;
   signInWithGoogle(): Promise<void>;
-  signUpWithEmail(email: string, password: string): Promise<void>;
-  signInWithEmail(email: string, password: string): Promise<void>;
+  signInWithFacebook(): Promise<void>;
 };
 
-const { CLIENT_ID } = process.env;
-
 GoogleSignin.configure({
-  webClientId: CLIENT_ID,
+  webClientId: CLIENT_ID_PROD,
 });
+
+Settings.setAppID(FACEBOOK_APP_ID);
+Settings.initializeSDK();
 
 const AuthContext = createContext({} as IAuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [authData, setAuthData] = useState<IUser>({} as IUser);
 
-  const { closeModal, closeModalSignUp } = useModal();
+  const { closeModal } = useModal();
   const { saveUserInFirestore } = useFirebaseService();
 
-  const signUpWithEmail = async (email: string, password: string) => {
-    try {
-      const { user } = await auth().createUserWithEmailAndPassword(email, password);
-
-      saveUserInFirestore({
-        uid: user.uid,
-        email: user.email,
-        photoURL: user.photoURL,
-        displayName: user.displayName,
-      });
-
-      closeModalSignUp();
-      setErrorMessage('');
-    } catch (err: any) {
-      if (err.code === 'auth/email-already-in-use') {
-        setErrorMessage('Esse e-mail já está em uso');
-      } else if (err.code === 'auth/weak-password') {
-        setErrorMessage('A senha deve ter no mínimo 6 caracteres');
-      } else if (err.code === 'auth/invalid-email') {
-        setErrorMessage('Digite um e-mail válido');
-      } else if (err.code === 'auth/too-many-requests') {
-        setErrorMessage(
-          'Muitas tentativas com erro, recupere sua senha ou tente novamente em instantes',
-        );
-      }
-    }
-  };
-
-  const signInWithEmail = async (email: string, password: string) => {
+  const signInWithFacebook = async () => {
     setIsLoading(true);
 
     try {
-      await auth().signInWithEmailAndPassword(email, password);
+      const { isCancelled, grantedPermissions } = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
 
-      closeModal();
-      setErrorMessage('');
-      __getError(email, 'AuthProvider - signInWithEmail');
-    } catch (err: any) {
-      console.log('Err signInWithEmail', err);
+      if (isCancelled) {
+        console.log('Usuário cancelou o login');
+      } else if (grantedPermissions) {
+        const accessToken = await AccessToken.getCurrentAccessToken();
 
-      if (err.code === 'auth/wrong-password') {
-        setErrorMessage('Verifique sua senha e tente novamente');
-      } else if (err.code === 'auth/user-not-found') {
-        setErrorMessage('Usuário não encontrado. Verifique seu e-mail');
-      } else if (err.code === 'auth/invalid-email') {
-        setErrorMessage('Digite um e-mail válido');
+        if (!accessToken) {
+          console.log('Não foi possível obter o accessToken');
+        } else {
+          const facebookCredential = auth.FacebookAuthProvider.credential(accessToken.accessToken);
+
+          const { user } = await auth().signInWithCredential(facebookCredential);
+
+          closeModal();
+
+          saveUserInFirestore({
+            uid: user?.uid,
+            email: user?.email,
+            photoURL: user?.photoURL,
+            displayName: user?.displayName,
+          });
+
+          auth().signInWithCredential(facebookCredential);
+        }
       }
+    } catch (error) {
+      console.log('Erro', error);
     } finally {
       setIsLoading(false);
     }
@@ -135,10 +122,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const resetErrorMessage = () => {
-    setErrorMessage('');
-  };
-
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
       if (user) {
@@ -163,12 +146,9 @@ function AuthProvider({ children }: AuthProviderProps) {
       value={{
         authData,
         isLoading,
-        errorMessage,
         signOut,
-        signUpWithEmail,
-        signInWithEmail,
         signInWithGoogle,
-        resetErrorMessage,
+        signInWithFacebook,
       }}
     >
       {children}

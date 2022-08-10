@@ -4,8 +4,8 @@ import { useCandidates } from '@hooks/useCandidates';
 
 import { Header } from '@components/Header';
 import { SignIn } from '@components/SignIn';
-import { SignUp } from '@components/SignUp';
 import { GlobalButton } from '@components/GlobalButton';
+import { SkeletonList } from '@components/SkeletonList';
 import { CandidateList } from '@components/CandidateList';
 import { AddComment } from '@components/AddComment/index';
 
@@ -20,10 +20,9 @@ export function Home() {
     <>
       <Header />
 
-      <CandidateList candidates={candidates} />
+      {!candidates.length ? <SkeletonList /> : <CandidateList candidates={candidates} />}
 
       <SignIn />
-      <SignUp />
 
       <AddComment />
 

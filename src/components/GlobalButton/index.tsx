@@ -1,6 +1,7 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-native/no-color-literals */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import { Share } from 'react-native';
 import { SpeedDial } from '@rneui/themed';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -14,14 +15,8 @@ export function GlobalButton() {
   const { navigate } = useNavigation<PropsStack>();
 
   const { authData, signOut } = useAuth();
-  const {
-    showGlobalButton,
-    openModal,
-    openModalSignUp,
-    openModalComment,
-    openGlobalButton,
-    closeGlobalButton,
-  } = useModal();
+  const { showGlobalButton, openModal, openModalComment, openGlobalButton, closeGlobalButton } =
+    useModal();
 
   const goToComments = () => {
     closeGlobalButton();
@@ -43,31 +38,42 @@ export function GlobalButton() {
       <SpeedDial.Action
         onPress={fn}
         title={title}
-        color="#1647E0"
+        color="#224dcf"
         titleStyle={{ color: '#041B10' }}
         icon={{ name: iconName, color: '#FCFCFC' }}
       />
     );
   };
 
+  const onShare = async () => {
+    try {
+      await Share.share({
+        message:
+          'Baixe o app *Próximo Presidente* e me ajude a escolher o próximo presidente do Brasil. Baixe na *PlayStore* 👉 https://play.google.com/store/apps/details?id=com.next_president',
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <SpeedDial
-      color="#1647E0"
+      color="#224dcf"
       isOpen={showGlobalButton}
       onOpen={openGlobalButton}
       onClose={closeGlobalButton}
       icon={{ name: 'settings', color: '#FCFCFC' }}
       openIcon={{ name: 'close', color: '#FCFCFC' }}
     >
-      {!authData?.uid ? <></> : Dial('add-comment', 'Postar comentário', openModalComment)}
+      {Dial('share', 'Compartilhar', onShare)}
+
+      {Dial('add-comment', 'Postar comentário', !authData?.uid ? openModal : openModalComment)}
 
       {name === 'Home'
         ? Dial('comment', 'Ver comentários', goToComments)
         : Dial('people', 'Acompanhar votos', goToHome)}
 
       {authData?.uid ? Dial('logout', 'Sair', logOut) : Dial('login', 'Entrar', openModal)}
-
-      {authData?.uid ? <></> : Dial('person-add', 'Criar conta', openModalSignUp)}
     </SpeedDial>
   );
 }

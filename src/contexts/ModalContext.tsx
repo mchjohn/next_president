@@ -6,14 +6,11 @@ type ModalProviderProps = {
 
 type IModalContext = {
   showModal: boolean;
-  showModalSignUp: boolean;
   showModalComment: boolean;
   showGlobalButton: boolean;
 
   openModal(): void;
   closeModal(): void;
-  openModalSignUp(): void;
-  closeModalSignUp(): void;
   openModalComment(): void;
   closeModalComment(): void;
   openGlobalButton(): void;
@@ -24,7 +21,6 @@ const ModalContext = createContext({} as IModalContext);
 
 function ModalProvider({ children }: ModalProviderProps) {
   const [showModal, setShowModal] = useState(false);
-  const [showModalSignUp, setShowModalSignUp] = useState(false);
   const [showGlobalButton, setShowGlobalButton] = useState(false);
   const [showModalComment, setShowModalComment] = useState(false);
 
@@ -34,14 +30,6 @@ function ModalProvider({ children }: ModalProviderProps) {
 
   const closeModal = () => {
     setShowModal(false);
-  };
-
-  const openModalSignUp = () => {
-    setShowModalSignUp(true);
-  };
-
-  const closeModalSignUp = () => {
-    setShowModalSignUp(false);
   };
 
   const openModalComment = () => {
@@ -64,14 +52,11 @@ function ModalProvider({ children }: ModalProviderProps) {
     <ModalContext.Provider
       value={{
         showModal,
-        showModalSignUp,
         showModalComment,
         showGlobalButton,
 
         openModal,
         closeModal,
-        openModalSignUp,
-        closeModalSignUp,
         openModalComment,
         openGlobalButton,
         closeGlobalButton,
