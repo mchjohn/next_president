@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Center, Icon, Modal, Text } from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { useAuth } from '@contexts/AuthContext';
 import { useModal } from '@contexts/ModalContext';
@@ -15,7 +16,7 @@ export function SignIn() {
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton onPress={closeModal} />
 
-          <Modal.Header>Entre para votar e comentar</Modal.Header>
+          <Modal.Header w="87%">Faça login para votar, comentar e curtir comentários</Modal.Header>
           <Modal.Body>
             <Button
               mt="4"
@@ -25,13 +26,9 @@ export function SignIn() {
               spinnerPlacement="start"
               isLoadingText="Entrando..."
               onPress={signInWithGoogle}
+              leftIcon={<Icon as={<AntDesign name="google" />} size="2xl" color="gray.100" />}
             >
-              <Center flexDirection="row">
-                <Text mr="2" fontSize="24" bold color="gray.100">
-                  G
-                </Text>
-                <Text color="gray.100">Entrar com Google</Text>
-              </Center>
+              Entrar com Google
             </Button>
 
             <Text textAlign="center" color="gray.400" my="2">
