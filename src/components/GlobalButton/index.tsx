@@ -1,5 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-native/no-color-literals */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Share } from 'react-native';
 import { SpeedDial } from '@rneui/themed';
@@ -15,14 +15,8 @@ export function GlobalButton() {
   const { navigate } = useNavigation<PropsStack>();
 
   const { authData, signOut } = useAuth();
-  const {
-    showGlobalButton,
-    openModal,
-    openModalSignUp,
-    openModalComment,
-    openGlobalButton,
-    closeGlobalButton,
-  } = useModal();
+  const { showGlobalButton, openModal, openModalComment, openGlobalButton, closeGlobalButton } =
+    useModal();
 
   const goToComments = () => {
     closeGlobalButton();
@@ -80,8 +74,6 @@ export function GlobalButton() {
         : Dial('people', 'Acompanhar votos', goToHome)}
 
       {authData?.uid ? Dial('logout', 'Sair', logOut) : Dial('login', 'Entrar', openModal)}
-
-      {authData?.uid ? <></> : Dial('person-add', 'Criar conta', openModalSignUp)}
     </SpeedDial>
   );
 }
