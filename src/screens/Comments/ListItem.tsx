@@ -71,16 +71,17 @@ export function ListItem({ comment }: Props) {
 
           <HStack alignItems="center">
             <Likes
-              isLiked
               amount={comment?.amountLike}
               onClick={() => onLike('like')}
-              isDisabled={isLiking || likes === 'like'}
+              isDisabled={isLiking || !!likes}
+              icon={likes === 'like' ? 'like1' : 'like2'}
               color={likes === 'like' ? 'blue.500' : 'gray.500'}
             />
             <Likes
               amount={comment?.amountDislike}
               onClick={() => onLike('dislike')}
-              isDisabled={isLiking || likes === 'dislike'}
+              isDisabled={isLiking || !!likes}
+              icon={likes === 'dislike' ? 'dislike1' : 'dislike2'}
               color={likes === 'dislike' ? 'blue.500' : 'gray.500'}
             />
           </HStack>
