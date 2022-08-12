@@ -15,20 +15,18 @@ type Props = {
 export function ListItem({ comment }: Props) {
   const { authData } = useAuth();
   const { openModal } = useModal();
-  const { isLiking, toggleLikeComment } = useComments();
+  const { isLiking, likeComment, dislikeComment } = useComments();
 
-  const onLike = async (type: 'like' | 'dislike') => {
+  const onLikeDislike = async (type: 'like' | 'dislike') => {
     if (!authData.uid) {
       return openModal();
     }
 
-    toggleLikeComment(
-      authData?.uid,
-      comment?.id,
-      comment?.amountLike,
-      comment?.amountDislike,
-      type,
-    );
+    if (type === 'like') {
+      likeComment(authData?.uid, comment?.id);
+    } else {
+      dislikeComment(authData?.uid, comment?.id);
+    }
   };
 
   const likes = useMemo(() => {
@@ -72,15 +70,15 @@ export function ListItem({ comment }: Props) {
           <HStack alignItems="center">
             <Likes
               amount={comment?.amountLike}
-              onClick={() => onLike('like')}
               isDisabled={isLiking || !!likes}
+              onClick={() => onLikeDislike('like')}
               icon={likes === 'like' ? 'like1' : 'like2'}
               color={likes === 'like' ? 'blue.500' : 'gray.500'}
             />
             <Likes
               amount={comment?.amountDislike}
-              onClick={() => onLike('dislike')}
               isDisabled={isLiking || !!likes}
+              onClick={() => onLikeDislike('dislike')}
               icon={likes === 'dislike' ? 'dislike1' : 'dislike2'}
               color={likes === 'dislike' ? 'blue.500' : 'gray.500'}
             />

@@ -3,6 +3,8 @@ import firestore from '@react-native-firebase/firestore';
 
 import { IComment } from '@src/constants/comment';
 
+export type FilterCommentsProps = 'amountLike' | 'amountDislike' | 'createdAt';
+
 /** Hook utilizado para salvar e buscar comentários no firestore. */
 export function useComments() {
   const [isLiking, setIsLiking] = useState(false);
@@ -11,13 +13,13 @@ export function useComments() {
   const [gettingComments, setGettingComments] = useState(false);
 
   // Busca todos os comentários
-  const getComments = useCallback(async () => {
+  const getComments = useCallback(async (filter: FilterCommentsProps) => {
     setGettingComments(true);
 
     try {
       firestore()
         .collection('Comments')
-        .orderBy('createdAt', 'desc')
+        .orderBy(filter, 'desc')
         .onSnapshot(documentSnapshot => {
           const allComments = documentSnapshot.docs.map(doc => {
             const data = doc.data() as IComment;
@@ -60,39 +62,41 @@ export function useComments() {
     }
   };
 
-  // Efetua o like/dislike
-  const toggleLikeComment = useCallback(
-    async (
-      userId: string,
-      commentId: string,
-      amountLike: number,
-      amountDislike: number,
-      type: 'like' | 'dislike',
-    ) => {
-      setIsLiking(true);
+  // Efetua o like
+  const likeComment = useCallback(async (userId: string, commentId: string) => {
+    setIsLiking(true);
 
-      try {
-        await firestore()
-          .doc(`Comments/${commentId}`)
-          .update({
-            amountLike:
-              type === 'like'
-                ? firestore.FieldValue.increment(1)
-                : firestore.FieldValue.increment(amountLike < 1 ? 0 : -1),
-            amountDislike:
-              type === 'dislike'
-                ? firestore.FieldValue.increment(1)
-                : firestore.FieldValue.increment(amountDislike < 1 ? 0 : -1),
-            likes: firestore.FieldValue.arrayUnion({ userId, type }),
-          });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLiking(false);
-      }
-    },
-    [],
-  );
+    try {
+      await firestore()
+        .doc(`Comments/${commentId}`)
+        .update({
+          amountLike: firestore.FieldValue.increment(1),
+          likes: firestore.FieldValue.arrayUnion({ userId, type: 'like' }),
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLiking(false);
+    }
+  }, []);
+
+  // Efetua o dislike
+  const dislikeComment = useCallback(async (userId: string, commentId: string) => {
+    setIsLiking(true);
+
+    try {
+      await firestore()
+        .doc(`Comments/${commentId}`)
+        .update({
+          amountDislike: firestore.FieldValue.increment(1),
+          likes: firestore.FieldValue.arrayUnion({ userId, type: 'dislike' }),
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLiking(false);
+    }
+  }, []);
 
   return {
     comments,
@@ -101,6 +105,7 @@ export function useComments() {
     addComment,
     getComments,
     gettingComments,
-    toggleLikeComment,
+    likeComment,
+    dislikeComment,
   };
 }
