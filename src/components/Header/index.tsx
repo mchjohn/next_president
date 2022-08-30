@@ -11,6 +11,7 @@ export function Header() {
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between"
+        accessibilityLabel="Cabeçalho da tela inicial"
       >
         <Box>
           <Text color="gray.50" fontSize="lg" fontWeight="semibold">

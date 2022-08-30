@@ -14,6 +14,7 @@ export function SkeletonList() {
       flexDirection="row"
       py="6"
       px="4"
+      accessibilityLabel="Carregando lista"
     >
       <Skeleton rounded="full" size="20" bg="gray.300" />
       <Skeleton.Text px="4" w="80%" endColor="gray.300" />
