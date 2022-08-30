@@ -3,30 +3,13 @@
 import React from 'react';
 import { Share } from 'react-native';
 import { SpeedDial } from '@rneui/themed';
-import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { useAuth } from '@contexts/AuthContext';
 import { useModal } from '@contexts/ModalContext';
 
-import { PropsStack } from '@src/routes/Models';
-
 export function GlobalButton() {
-  const { name } = useRoute();
-  const { navigate } = useNavigation<PropsStack>();
-
   const { authData, signOut } = useAuth();
-  const { showGlobalButton, openModal, openModalComment, openGlobalButton, closeGlobalButton } =
-    useModal();
-
-  const goToComments = () => {
-    closeGlobalButton();
-    navigate('Comments');
-  };
-
-  const goToHome = () => {
-    closeGlobalButton();
-    navigate('Home');
-  };
+  const { showGlobalButton, openModal, openGlobalButton, closeGlobalButton } = useModal();
 
   const logOut = () => {
     signOut();
@@ -38,7 +21,7 @@ export function GlobalButton() {
       <SpeedDial.Action
         onPress={fn}
         title={title}
-        color="#224dcf"
+        color="#007BFF"
         titleStyle={{ color: '#041B10' }}
         icon={{ name: iconName, color: '#FCFCFC' }}
       />
@@ -58,20 +41,15 @@ export function GlobalButton() {
 
   return (
     <SpeedDial
-      color="#224dcf"
+      color="#007BFF"
       isOpen={showGlobalButton}
       onOpen={openGlobalButton}
+      buttonStyle={{ borderWidth: 2, borderColor: '#FCFCFC', borderRadius: 100 }}
       onClose={closeGlobalButton}
       icon={{ name: 'settings', color: '#FCFCFC' }}
       openIcon={{ name: 'close', color: '#FCFCFC' }}
     >
       {Dial('share', 'Compartilhar', onShare)}
-
-      {Dial('add-comment', 'Postar comentário', !authData?.uid ? openModal : openModalComment)}
-
-      {name === 'Home'
-        ? Dial('comment', 'Ver comentários', goToComments)
-        : Dial('people', 'Acompanhar votos', goToHome)}
 
       {authData?.uid ? Dial('logout', 'Sair', logOut) : Dial('login', 'Entrar', openModal)}
     </SpeedDial>

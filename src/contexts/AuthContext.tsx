@@ -29,7 +29,7 @@ GoogleSignin.configure({
 });
 
 Settings.setAppID(FACEBOOK_APP_ID);
-Settings.initializeSDK();
+// Settings.initializeSDK();
 
 const AuthContext = createContext({} as IAuthContextData);
 
