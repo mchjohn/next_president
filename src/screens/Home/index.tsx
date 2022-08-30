@@ -7,7 +7,6 @@ import { SignIn } from '@components/SignIn';
 import { GlobalButton } from '@components/GlobalButton';
 import { SkeletonList } from '@components/SkeletonList';
 import { CandidateList } from '@components/CandidateList';
-import { AddComment } from '@components/AddComment/index';
 
 export function Home() {
   const { candidates, getCandidates } = useCandidates();
@@ -23,8 +22,6 @@ export function Home() {
       {!candidates.length ? <SkeletonList /> : <CandidateList candidates={candidates} />}
 
       <SignIn />
-
-      <AddComment />
 
       <GlobalButton />
     </>
