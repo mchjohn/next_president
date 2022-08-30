@@ -48,6 +48,7 @@ export function GlobalButton() {
       onClose={closeGlobalButton}
       icon={{ name: 'settings', color: '#FCFCFC' }}
       openIcon={{ name: 'close', color: '#FCFCFC' }}
+      accessibilityLabel="Botão de opções"
     >
       {Dial('share', 'Compartilhar', onShare)}
 

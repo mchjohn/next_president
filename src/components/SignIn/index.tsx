@@ -13,7 +13,7 @@ export function SignIn() {
     <Center>
       <Modal isOpen={showModal} onClose={closeModal}>
         <Modal.Content maxWidth="400px">
-          <Modal.CloseButton onPress={closeModal} />
+          <Modal.CloseButton onPress={closeModal} accessibilityLabel="Fechar modal" />
 
           <Modal.Header w="87%">Faça login para votar, comentar e curtir comentários</Modal.Header>
           <Modal.Body>

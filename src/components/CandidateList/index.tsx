@@ -31,6 +31,7 @@ export function CandidateList({ candidates }: Props) {
         renderItem={({ item, index }) => (
           <ListItem candidate={item} amountVotes={amountVotes} candidatesPosition={index} />
         )}
+        accessibilityLabel="Lista de candidatos à presidência"
       />
     </Box>
   );

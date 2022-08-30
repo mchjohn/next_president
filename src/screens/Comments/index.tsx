@@ -52,6 +52,7 @@ export function Comments() {
           estimatedItemSize={326}
           contentContainerStyle={{ paddingBottom: 38 }}
           renderItem={({ item }) => <ListItem comment={item} />}
+          accessibilityLabel="Lista de comentários"
         />
       )}
 
